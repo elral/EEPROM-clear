@@ -1,0 +1,12 @@
+#ifndef MFEEPROM_H
+#define MFEEPROM_H
+
+void eeprom_init(void);
+void eeprom_read_block(uint16_t addr, char data[], uint16_t len);
+void eeprom_write_block (uint16_t addr, char data[], uint16_t len);
+char eeprom_read_char(uint16_t adr);
+void eeprom_write_byte (uint16_t adr, char data);
+
+uint16_t eeprom_length();
+
+#endif
