@@ -19,7 +19,7 @@ void setup() {
   Serial.begin(115200);
   while (!Serial) delay(10);
   
-  Serial.print("Number of Bytes: "); Serial.println(bufferlength);
+  Serial.print("Number of Bytes: "); Serial.println(MFeeprom.get_length());
   for (int i = 0 ; i < bufferlength ; i++) {
     buffer[i] = CLEARBYTE;
   }
