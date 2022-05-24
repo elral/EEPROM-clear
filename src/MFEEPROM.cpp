@@ -8,7 +8,7 @@
 #include "MFEEPROM.h"
 #include <EEPROM.h>
 
-#define EEPROM_SIZE 4096
+#define EEPROM_SIZE 2048
 #define WORKING         // uncomment this for not working Pico variant
 
 MFEEPROM::MFEEPROM()
