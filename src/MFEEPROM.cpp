@@ -11,23 +11,14 @@
 #define EEPROM_SIZE 2048
 #define WORKING         // uncomment this for not working Pico variant
 
-MFEEPROM::MFEEPROM()
-{
-#if !defined(WORKING) && defined(ARDUINO_ARCH_RP2040)
-    EEPROM.begin(EEPROM_SIZE);
-    eepromLength = EEPROM.length();
-#endif
-#if !defined(ARDUINO_ARCH_RP2040)
-    eepromLength = EEPROM.length();
-#endif
-}
+MFEEPROM::MFEEPROM() { }
 
 void MFEEPROM::init(void)
 {
-#if defined(WORKING) && defined(ARDUINO_ARCH_RP2040)
+#if defined(ARDUINO_ARCH_RP2040)
     EEPROM.begin(EEPROM_SIZE);
-    eepromLength = EEPROM.length();
 #endif
+    eepromLength = EEPROM.length();
 }
 
 
@@ -36,22 +27,25 @@ uint16_t MFEEPROM::get_length(void)
     return eepromLength;
 }
 
-void MFEEPROM::read_block(uint16_t adr, char data[], uint16_t len)
+bool MFEEPROM::read_block(uint16_t adr, char data[], uint16_t len)
 {
+    if (adr + len > eepromLength) return false;
     for (uint16_t i = 0; i < len; i++) {
         data[i] = read_char(adr + i);
     }
+    return true;
 }
 
-void MFEEPROM::write_block(uint16_t adr, char data[], uint16_t len)
+bool MFEEPROM::write_block(uint16_t adr, char data[], uint16_t len)
 {
-    if (adr + len >= eepromLength) return;
+    if (adr + len > eepromLength) return false;
     for (uint16_t i = 0; i < len; i++) {
         EEPROM.put(adr + i, data[i]);
     }
 #if defined(ARDUINO_ARCH_RP2040)
     EEPROM.commit();
 #endif
+    return true;
 }
 
 char MFEEPROM::read_char(uint16_t adr)
@@ -60,13 +54,14 @@ char MFEEPROM::read_char(uint16_t adr)
     return EEPROM.read(adr);
 }
 
-void MFEEPROM::write_byte(uint16_t adr, char data)
+bool MFEEPROM::write_byte(uint16_t adr, char data)
 {
-    if (adr >= eepromLength) return;
+    if (adr >= eepromLength) return false;
     EEPROM.put(adr, data);
 #if defined(ARDUINO_ARCH_RP2040)
     EEPROM.commit();
 #endif
+    return true;
 }
 
 // MFEEPROM.cpp
