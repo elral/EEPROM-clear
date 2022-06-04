@@ -20,7 +20,7 @@ void setup() {
   while (!Serial) delay(10);
   
   Serial.print("Number of Bytes: "); Serial.println(bufferlength);
-  for (int i = 0 ; i < bufferlength ; i++) {
+  for (uint16_t i = 0 ; i < bufferlength ; i++) {
     buffer[i] = CLEARBYTE;
   }
 
@@ -36,7 +36,7 @@ void setup() {
 
 
   Serial.print("Number of Bytes: "); Serial.println(bufferlength);
-  for (int i = 0 ; i < bufferlength ; i+=32) {
+  for (uint16_t i = 0 ; i < bufferlength ; i+=32) {
     Serial.print(i); Serial.print(" to "); Serial.print(i+32); Serial.print(": ");Serial.print("\t");
     for (uint16_t j = i; j < i+32; j++) {
       Serial.print(MFeeprom.read_char(j));
@@ -44,7 +44,7 @@ void setup() {
     Serial.println("");
   }
 
-  for (int i = 0 ; i < bufferlength ; i+=32) {
+  for (uint16_t i = 0 ; i < bufferlength ; i+=32) {
     Serial.print(i); Serial.print(" to "); Serial.print(i+32); Serial.print(": ");Serial.print("\t");
     for (uint16_t j = i; j<i+32; j++) {
       uint8_t n = MFeeprom.read_char(j);
