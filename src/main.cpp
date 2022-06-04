@@ -2,7 +2,7 @@
 #include <Arduino.h>
 #include "MFEEPROM.h"
 
-#define CLEARBYTE 0x0F;
+#define CLEARBYTE 0xFF;
 
 MFEEPROM MFeeprom;
 
@@ -19,16 +19,21 @@ void setup() {
   Serial.begin(115200);
   while (!Serial) delay(10);
   
-  Serial.print("Number of Bytes: "); Serial.println(MFeeprom.get_length());
+  Serial.print("Number of Bytes: "); Serial.println(bufferlength);
   for (int i = 0 ; i < bufferlength ; i++) {
     buffer[i] = CLEARBYTE;
   }
 
-  MFeeprom.write_block(0,buffer, bufferlength);   // uncomment this for only reading eeprom content
+  // uncomment this for only reading eeprom content
+  if (MFeeprom.write_block(0,buffer, bufferlength)) {
+    // turn the LED on when we're done
+    digitalWrite(LED_BUILTIN, HIGH);
+    Serial.println("Memory erased");
+  } else {
+    Serial.println("Failure! Memory not erased");
+  }   
 
-// turn the LED on when we're done
-  digitalWrite(LED_BUILTIN, HIGH);
-  Serial.println("Memory erased");
+
 
   Serial.print("Number of Bytes: "); Serial.println(bufferlength);
   for (int i = 0 ; i < bufferlength ; i+=32) {
