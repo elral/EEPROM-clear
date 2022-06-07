@@ -24,16 +24,14 @@ void setup() {
     buffer[i] = CLEARBYTE;
   }
 
-  // uncomment this for only reading eeprom content
+  // uncomment this block for only reading eeprom content
   if (MFeeprom.write_block(0,buffer, bufferlength)) {
     // turn the LED on when we're done
     digitalWrite(LED_BUILTIN, HIGH);
     Serial.println("Memory erased");
   } else {
-    Serial.println("Failure! Memory not erased");
+    Serial.println("Failure! Memory not erased (completly)");
   }   
-
-
 
   Serial.print("Number of Bytes: "); Serial.println(bufferlength);
   for (uint16_t i = 0 ; i < bufferlength ; i+=32) {
