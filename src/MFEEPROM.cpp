@@ -29,8 +29,8 @@ uint16_t MFEEPROM::get_length(void)
 
 bool MFEEPROM::read_block(uint16_t adr, char data[], uint16_t len)
 {
-    if (adr + len > eepromLength) return false;
     for (uint16_t i = 0; i < len; i++) {
+        if (adr + i >= eepromLength) return false;
         data[i] = read_char(adr + i);
     }
     return true;
@@ -38,8 +38,8 @@ bool MFEEPROM::read_block(uint16_t adr, char data[], uint16_t len)
 
 bool MFEEPROM::write_block(uint16_t adr, char data[], uint16_t len)
 {
-    if (adr + len > eepromLength) return false;
     for (uint16_t i = 0; i < len; i++) {
+        if (adr + i >= eepromLength) return false;
         EEPROM.put(adr + i, data[i]);
     }
 #if defined(ARDUINO_ARCH_RP2040)
