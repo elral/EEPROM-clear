@@ -17,7 +17,7 @@ void setup() {
   pinMode(LED_BUILTIN, OUTPUT);
 
   Serial.begin(115200);
-  while (!Serial) delay(10);
+  while (!Serial) delay(100);
   
   Serial.print("Number of Bytes: "); Serial.println(bufferlength);
   for (int i = 0 ; i < bufferlength ; i++) {
