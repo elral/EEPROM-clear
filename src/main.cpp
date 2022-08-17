@@ -16,9 +16,9 @@ void setup() {
   // initialize the LED pin as an output.
   pinMode(LED_BUILTIN, OUTPUT);
 
-#ifdef PRINTOUT
   Serial.begin(115200);
-  while (!Serial) delay(100);
+  while (!Serial) delay(10);
+#ifdef PRINTOUT
   Serial.print("Number of Bytes: "); Serial.println(bufferlength);
 #endif
 
