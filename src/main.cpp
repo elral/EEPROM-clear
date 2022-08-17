@@ -16,23 +16,27 @@ void setup() {
   // initialize the LED pin as an output.
   pinMode(LED_BUILTIN, OUTPUT);
 
+#ifdef PRINTOUT
   Serial.begin(115200);
   while (!Serial) delay(100);
-  
   Serial.print("Number of Bytes: "); Serial.println(bufferlength);
+#endif
+
   for (uint16_t i = 0 ; i < bufferlength ; i++) {
     buffer[i] = CLEARBYTE;
   }
 
-  // uncomment this block for only reading eeprom content
   if (MFeeprom.write_block(0,buffer, bufferlength)) {
     // turn the LED on when we're done
     digitalWrite(LED_BUILTIN, HIGH);
+#ifdef PRINTOUT
     Serial.println("Memory erased");
   } else {
     Serial.println("Failure! Memory not erased (completly)");
-  }   
+#endif
+  }
 
+#ifdef PRINTOUT
   Serial.print("Number of Bytes: "); Serial.println(bufferlength);
   for (uint16_t i = 0 ; i < bufferlength ; i+=32) {
     Serial.print(i); Serial.print(" to "); Serial.print(i+32); Serial.print(": ");Serial.print("\t");
@@ -53,6 +57,7 @@ void setup() {
     }
     Serial.println("");
   }
+#endif
 }
 
 
