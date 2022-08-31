@@ -8,8 +8,9 @@
 #include "MFEEPROM.h"
 #include <EEPROM.h>
 
-#define EEPROM_SIZE 2048
-#define WORKING         // uncomment this for not working Pico variant
+#if defined(ARDUINO_ARCH_RP2040)
+    #define EEPROM_SIZE 4096
+#endif
 
 MFEEPROM::MFEEPROM() { }
 

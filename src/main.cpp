@@ -12,31 +12,45 @@ void setup() {
 
   uint16_t bufferlength = MFeeprom.get_length();
   char buffer[bufferlength];
+  char incomingByte = 0;
 
   // initialize the LED pin as an output.
   pinMode(LED_BUILTIN, OUTPUT);
 
   Serial.begin(115200);
-#ifdef PRINTOUT
   while (!Serial) delay(10);
-  Serial.print("Number of Bytes: "); Serial.println(bufferlength);
-#endif
+  delay(1000);
+  Serial.println("Please press 'd' for only dumping the EEPROM");
+  Serial.println("or press 'e' for erasing and dumping the EEPROM");
+
+  do
+  {
+    if (Serial.available() > 0) {
+      incomingByte = Serial.read();
+      if (incomingByte=='d' || incomingByte =='e') {
+        break;
+      } else {
+        Serial.println("Please press 'd' or 'e' ");
+      }
+    }
+  } while (incomingByte != 'd' || incomingByte != 'e');
+
+  Serial.print("Number of Bytes in EEPROM: "); Serial.println(bufferlength);
 
   for (uint16_t i = 0 ; i < bufferlength ; i++) {
     buffer[i] = CLEARBYTE;
   }
 
-  if (MFeeprom.write_block(0,buffer, bufferlength)) {
-    // turn the LED on when we're done
-    digitalWrite(LED_BUILTIN, HIGH);
-#ifdef PRINTOUT
-    Serial.println("Memory erased");
-  } else {
-    Serial.println("Failure! Memory not erased (completly)");
-#endif
+  if (incomingByte == 'e') {
+    if (MFeeprom.write_block(0,buffer, bufferlength)) {
+      // turn the LED on when we're done
+      digitalWrite(LED_BUILTIN, HIGH);
+      Serial.println("Memory erased");
+    } else {
+      Serial.println("Failure! Memory not erased (completly)");
+    }
   }
 
-#ifdef PRINTOUT
   Serial.print("Number of Bytes: "); Serial.println(bufferlength);
   for (uint16_t i = 0 ; i < bufferlength ; i+=32) {
     Serial.print(i); Serial.print(" to "); Serial.print(i+32); Serial.print(": ");Serial.print("\t");
@@ -57,7 +71,6 @@ void setup() {
     }
     Serial.println("");
   }
-#endif
 }
 
 
