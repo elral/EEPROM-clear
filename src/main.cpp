@@ -2,7 +2,7 @@
 #include <Arduino.h>
 #include "MFEEPROM.h"
 
-#define CLEARBYTE 0xFF;
+#define CLEARBYTE 0xAA;
 
 MFEEPROM MFeeprom;
 
@@ -42,13 +42,72 @@ void setup() {
   }
 
   if (incomingByte == 'e') {
+    for (uint16_t i = 0 ; i < bufferlength ; i++) {
+      buffer[i] = 0xAA;
+    }
     if (MFeeprom.write_block(0,buffer, bufferlength)) {
       // turn the LED on when we're done
       digitalWrite(LED_BUILTIN, HIGH);
-      Serial.println("Memory erased");
+      Serial.println("Memory erased with 0xAA");
     } else {
       Serial.println("Failure! Memory not erased (completly)");
     }
+    for (uint16_t i = 0 ; i < bufferlength ; i+=32) {
+      Serial.print(i); Serial.print(" to "); Serial.print(i+32); Serial.print(": ");Serial.print("\t");
+      for (uint16_t j = i; j<i+32; j++) {
+        uint8_t n = MFeeprom.read_char(j);
+        Serial.print("0x");
+        Serial.print(n < 16 ? "0" : "");
+        Serial.print(n, HEX);
+        Serial.print(" ");
+      }
+      Serial.println("");
+    }
+
+    for (uint16_t i = 0 ; i < bufferlength ; i++) {
+      buffer[i] = 0x33;
+    }
+    if (MFeeprom.write_block(0,buffer, bufferlength)) {
+      // turn the LED on when we're done
+      digitalWrite(LED_BUILTIN, HIGH);
+      Serial.println("Memory erased with 0x33");
+    } else {
+      Serial.println("Failure! Memory not erased (completly)");
+    }
+    for (uint16_t i = 0 ; i < bufferlength ; i+=32) {
+      Serial.print(i); Serial.print(" to "); Serial.print(i+32); Serial.print(": ");Serial.print("\t");
+      for (uint16_t j = i; j<i+32; j++) {
+        uint8_t n = MFeeprom.read_char(j);
+        Serial.print("0x");
+        Serial.print(n < 16 ? "0" : "");
+        Serial.print(n, HEX);
+        Serial.print(" ");
+      }
+      Serial.println("");
+    }
+
+    for (uint16_t i = 0 ; i < bufferlength ; i++) {
+      buffer[i] = 0xFF;
+    }
+    if (MFeeprom.write_block(0,buffer, bufferlength)) {
+      // turn the LED on when we're done
+      digitalWrite(LED_BUILTIN, HIGH);
+      Serial.println("Memory erased with 0xFF");
+    } else {
+      Serial.println("Failure! Memory not erased (completly)");
+    }
+    for (uint16_t i = 0 ; i < bufferlength ; i+=32) {
+      Serial.print(i); Serial.print(" to "); Serial.print(i+32); Serial.print(": ");Serial.print("\t");
+      for (uint16_t j = i; j<i+32; j++) {
+        uint8_t n = MFeeprom.read_char(j);
+        Serial.print("0x");
+        Serial.print(n < 16 ? "0" : "");
+        Serial.print(n, HEX);
+        Serial.print(" ");
+      }
+      Serial.println("");
+    }
+
   }
 
   Serial.print("Number of Bytes: "); Serial.println(bufferlength);
