@@ -1,7 +1,7 @@
 Import("env")
 import os
 
-firmware_version = "1.0.0"
+firmware_version = "1.0.1"
 
 print(f'Using version {firmware_version} for the build')
 
