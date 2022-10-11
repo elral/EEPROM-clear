@@ -28,7 +28,7 @@ void setup() {
 
   if (MFeeprom.write_block(0,buffer, bufferlength)) {
     // turn the LED on when we're done
-    digitalWrite(LED_BUILTIN, HIGH);
+    
 #ifdef PRINTOUT
     Serial.println("Memory erased");
   } else {
@@ -62,5 +62,8 @@ void setup() {
 
 
 void loop() {
-/** Empty loop. **/
+  digitalWrite(LED_BUILTIN, HIGH);
+  delay(1000);
+  digitalWrite(LED_BUILTIN, LOW);
+  delay(1000);
 }
