@@ -27,7 +27,6 @@ void setup() {
   }
 
   if (MFeeprom.write_block(0,buffer, bufferlength)) {
-    // turn the LED on when we're done
     
 #ifdef PRINTOUT
     Serial.println("Memory erased");
