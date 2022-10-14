@@ -11,4 +11,4 @@ env.Append(CPPDEFINES=[
 ])
 
 # Set the output filename to the name of the board and the version
-env.Replace(PROGNAME=f'ClearEEPROM_{env["PIOENV"]}_{firmware_version.replace(".", "_")}')
+env.Replace(PROGNAME=f'reset.arduino_{env["PIOENV"]}_{firmware_version.replace(".", "_")}')
