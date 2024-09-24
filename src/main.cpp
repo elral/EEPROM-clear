@@ -20,8 +20,10 @@ void setup() {
 #ifdef PRINTOUT
   while (!Serial) delay(10);
   Serial.print("Number of Bytes: "); Serial.println(bufferlength);
+  delay(500);
 #endif
 
+#ifndef ONLY_DUMP
   for (uint16_t i = 0 ; i < bufferlength ; i++) {
     buffer[i] = CLEARBYTE;
   }
@@ -34,6 +36,7 @@ void setup() {
     Serial.println("Failure! Memory not erased (completly)");
 #endif
   }
+#endif
 
 #ifdef PRINTOUT
   Serial.print("Number of Bytes: "); Serial.println(bufferlength);
