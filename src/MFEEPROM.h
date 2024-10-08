@@ -21,7 +21,7 @@ public:
     bool     write_byte(uint16_t adr, char data);
 
 private:
-    uint16_t eepromLength = 0;
+    uint16_t _eepromLength = 0;
 };
 
 // MFEEPROM.h

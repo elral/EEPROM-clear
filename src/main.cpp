@@ -3,6 +3,13 @@
 #include "MFEEPROM.h"
 
 #define CLEARBYTE 0xAA;
+#ifdef ARDUINO_AVR_PROMICRO16
+#define TXLED0 PORTD &= ~(1 << 5)
+#define TXLED1 PORTD |= (1 << 5)
+#define RXLED0 PORTB &= ~(1 << 0)
+#define RXLED1 PORTB |= (1 << 0)
+#define TX_RX_LED_INIT DDRD |= (1 << 5), DDRB |= (1 << 0), TXLED0, RXLED0
+#endif
 
 MFEEPROM MFeeprom;
 
@@ -37,6 +44,7 @@ void setup() {
 
   Serial.print("Number of Bytes in EEPROM: "); Serial.println(bufferlength);
 
+#if !defined(ONLY_DUMP)
   for (uint16_t i = 0 ; i < bufferlength ; i++) {
     buffer[i] = CLEARBYTE;
   }
@@ -134,8 +142,17 @@ void setup() {
 
 
 void loop() {
+#ifdef ARDUINO_AVR_PROMICRO16
+  TXLED0;
+  RXLED0;
+  delay(1000);
+  TXLED1;
+  RXLED1;
+  delay(1000);
+#else
   digitalWrite(LED_BUILTIN, HIGH);
   delay(1000);
   digitalWrite(LED_BUILTIN, LOW);
   delay(1000);
+#endif
 }
