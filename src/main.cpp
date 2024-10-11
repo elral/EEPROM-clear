@@ -27,6 +27,7 @@ void setup() {
 #if defined(PRINTOUT) || defined(ONLY_DUMP)
   while (!Serial) delay(10);
   Serial.print("Number of Bytes: "); Serial.println(bufferlength);
+  delay(500);
 #endif
 
 #if !defined(ONLY_DUMP)
@@ -43,6 +44,7 @@ void setup() {
     Serial.println("Failure! Memory not erased (completly)");
 #endif
   }
+#endif
 
 #if defined(PRINTOUT) || defined(ONLY_DUMP)
   Serial.print("Number of Bytes: "); Serial.println(bufferlength);
