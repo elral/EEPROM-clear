@@ -19,6 +19,7 @@ void setup() {
 
   uint16_t bufferlength = MFeeprom.get_length();
   char buffer[bufferlength];
+  bool result = false;
 
   // initialize the LED pin as an output.
   pinMode(LED_BUILTIN, OUTPUT);
@@ -34,15 +35,14 @@ void setup() {
   for (uint16_t i = 0 ; i < bufferlength ; i++) {
     buffer[i] = CLEARBYTE;
   }
-
-  if (MFeeprom.write_block(0,buffer, bufferlength)) 
+  result = MFeeprom.write_block(0,buffer, bufferlength);
 #endif
-  {
+
 #if defined(PRINTOUT) && !defined(ONLY_DUMP)
+  if (result) {
     Serial.println("Memory erased");
   } else {
     Serial.println("Failure! Memory not erased (completly)");
-#endif
   }
 #endif
 
